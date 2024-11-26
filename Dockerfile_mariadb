@@ -7,7 +7,7 @@ FROM mariadb:10.5
 # Defina as variáveis de ambiente para o banco de dados
 ENV MYSQL_ROOT_PASSWORD=root_password
 ENV MYSQL_DATABASE=school_db
-ENV MYSQL_USER=flask_user
-ENV MYSQL_PASSWORD=flask_password
+ENV MYSQL_USER=vitor
+ENV MYSQL_PASSWORD=vitor
 
 EXPOSE 3306

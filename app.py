@@ -7,6 +7,8 @@ from flask_appbuilder.models.sqla.interface import SQLAInterface
 from flask_appbuilder import ModelView
 from sqlalchemy.exc import OperationalError
 from prometheus_flask_exporter import PrometheusMetrics
+from sqlalchemy import create_engine
+from sqlalchemy_utils import database_exists, create_database
 import logging
 
 app = Flask(__name__)
@@ -16,7 +18,13 @@ metrics = PrometheusMetrics(app)
 app.config['SECRET_KEY'] = 'minha_chave_secreta_super_secreta'  # Substitua por uma chave segura
 
 # Configuração do banco de dados
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:root_password@mariadb/school_db'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://vitor:vitor@localhost:3306/school_db'
+
+engine = create_engine(app.config['SQLALCHEMY_DATABASE_URI'])
+if not database_exists(engine.url):
+    create_database(engine.url)  # Cria o banco de dados
+    print("Banco de dados 'school_db' criado com sucesso!")
+
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 # Inicializar o banco de dados e o AppBuilder
@@ -24,7 +32,6 @@ db = SQLAlchemy(app)
 appbuilder = AppBuilder(app, db.session)
 
 # Configuração do log
-logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
 # Tentar conectar até o MariaDB estar pronto
@@ -60,6 +67,10 @@ class Aluno(db.Model):
     sobrenome = db.Column(db.String(50), nullable=False)
     turma = db.Column(db.String(50), nullable=False)
     disciplinas = db.Column(db.String(200), nullable=False)
+
+with app.app_context():
+    db.create_all()
+    print("Tabelas criadas com sucesso!")
 
 # Visão do modelo Aluno para o painel administrativo
 class AlunoModelView(ModelView):
