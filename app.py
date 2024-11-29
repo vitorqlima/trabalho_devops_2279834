@@ -18,7 +18,7 @@ metrics = PrometheusMetrics(app)
 app.config['SECRET_KEY'] = 'minha_chave_secreta_super_secreta'  # Substitua por uma chave segura
 
 # Configuração do banco de dados
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://vitor:vitor@localhost:3306/school_db'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://flask_user:flask_password@mariadb:3306/school_db'
 
 engine = create_engine(app.config['SQLALCHEMY_DATABASE_URI'])
 if not database_exists(engine.url):
