@@ -1,0 +1,27 @@
+{
+    "dashboard": {
+      "panels": [
+        {
+          "type": "graph",
+          "title": "Acessos à Aplicação",
+          "targets": [
+            {
+              "expr": "http_requests_total",
+              "legendFormat": "Total de Acessos"
+            }
+          ]
+        },
+        {
+          "type": "graph",
+          "title": "Consultas ao Banco de Dados",
+          "targets": [
+            {
+              "expr": "mysql_global_status_queries",
+              "legendFormat": "Consultas SQL"
+            }
+          ]
+        }
+      ]
+    }
+  }
+  
